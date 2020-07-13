@@ -47,7 +47,13 @@ export default class AddFolder extends Component {
           <NotefulForm onSubmit={this.handleSubmit}>
             <div className="field">
               <label htmlFor="folder-name-input">Name</label>
-              <input type="text" id="folder-name-input" name="folder-name" />
+              <input
+                type="text"
+                id="folder-name-input"
+                name="folder-name"
+                aria-label="Folder name"
+                aria-required="true"
+              />
             </div>
             <div className="buttons">
               <button type="submit">Add folder</button>
