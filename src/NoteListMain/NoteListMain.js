@@ -5,6 +5,8 @@ import Note from "../Note/Note";
 import CircleButton from "../CircleButton/CircleButton";
 import ApiContext from "../ApiContext";
 import { getNotesForFolder } from "../notes-helpers";
+import ErrorBoundary from "../ErrorBoundary";
+
 import "./NoteListMain.css";
 
 export default class NoteListMain extends React.Component {
@@ -31,16 +33,18 @@ export default class NoteListMain extends React.Component {
           ))}
         </ul>
         <div className="NoteListMain__button-container">
-          <CircleButton
-            tag={Link}
-            to="/add-note"
-            type="button"
-            className="NoteListMain__add-note-button"
-          >
-            <FontAwesomeIcon icon="plus" />
-            <br />
-            Note
-          </CircleButton>
+          <ErrorBoundary>
+            <CircleButton
+              tag={Link}
+              to="/add-note"
+              type="button"
+              className="NoteListMain__add-note-button"
+            >
+              <FontAwesomeIcon icon="plus" />
+              <br />
+              Note
+            </CircleButton>
+          </ErrorBoundary>
         </div>
       </section>
     );

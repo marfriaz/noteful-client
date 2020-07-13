@@ -6,7 +6,7 @@ export default function NavCircleButton(props) {
 
   return React.createElement(
     props.tag,
-    // Dont understand this portion
+
     {
       className: ["NavCircleButton", props.className].join(" "),
       ...otherProps,

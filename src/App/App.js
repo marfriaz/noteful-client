@@ -5,7 +5,10 @@ import NoteListNav from "../NoteListNav/NoteListNav";
 import NotePageNav from "../NotePageNav/NotePageNav";
 import NoteListMain from "../NoteListMain/NoteListMain";
 import NotePageMain from "../NotePageMain/NotePageMain";
-import dummyStore from "../dummy-store";
+import AddFolder from "../AddFolder/AddFolder";
+import AddNote from "../AddNote/AddNote";
+import ApiContext from "../ApiContext";
+import ErrorBoundary from "../ErrorBoundary";
 import "./App.css";
 import config from "../config";
 
@@ -35,6 +38,17 @@ export default class App extends Component {
       });
   }
 
+  handleAddFolder = (folder) => {
+    this.setState({
+      folders: [...this.state.folders, folder],
+    });
+  };
+
+  handleAddNote = (note) => {
+    this.setState({
+      notes: [...this.state.notes, note],
+    });
+  };
   handleDeleteNote = (noteId) => {
     this.setState({
       notes: this.state.notes.filter((note) => note.id !== noteId),
@@ -61,6 +75,8 @@ export default class App extends Component {
           <Route exact path={path} component={NoteListMain} />
         ))}
         <Route path="/note/:noteId" component={NotePageMain} />
+        <Route path="/add-folder" component={AddFolder} />
+        <Route path="/add-note" component={AddNote} />
       </>
     );
   }
@@ -69,19 +85,25 @@ export default class App extends Component {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
+      addFolder: this.handleAddFolder,
+      addNote: this.handleAddNote,
       deleteNote: this.handleDeleteNote,
     };
     return (
       <ApiContext.Provider value={value}>
         <div className="App">
-          <nav className="App__nav">{this.renderNavRoutes()}</nav>
+          <ErrorBoundary>
+            <nav className="App__nav">{this.renderNavRoutes()}</nav>
+          </ErrorBoundary>
           <header className="App__header">
             <h1>
               <Link to="/">Noteful</Link>{" "}
               <FontAwesomeIcon icon="check-double" />
             </h1>
           </header>
-          <main className="App__main">{this.renderMainRoutes()}</main>
+          <ErrorBoundary>
+            <main className="App__main">{this.renderMainRoutes()}</main>
+          </ErrorBoundary>
         </div>
       </ApiContext.Provider>
     );
